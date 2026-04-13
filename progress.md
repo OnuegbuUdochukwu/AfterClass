@@ -4,9 +4,9 @@
   - [x] Sub-task 1.1: Project Initialization & Global Styling
 - [x] **Phase 2: Authentication & User Logic**
   - [x] Sub-task 2.1: Supabase Integration, Google OAuth & AuthContext
-- [ ] **Phase 3: Database Architecture & Admin Tools**
-  - [ ] Sub-task 3.1: Schema Implementation & RLS Policies
-  - [ ] Sub-task 3.2: Developer "God View" Admin Panel
+- [x] **Phase 3: Database Architecture & Admin Tools**
+  - [x] Sub-task 3.1: Schema Implementation & RLS Policies
+  - [x] Sub-task 3.2: Developer "God View" Admin Panel
 - [ ] **Phase 4: Course Lobby & Weekly Timeline**
   - [ ] Sub-task 4.1: Course Lobby & Navigation
   - [ ] Sub-task 4.2: Weekly Accordion & Topic Banners
