@@ -23,26 +23,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
 
   useEffect(() => {
+    const handleSession = async (currentSession: Session | null) => {
+      const allowedDomain = process.env.NEXT_PUBLIC_ALLOWED_DOMAIN;
+      
+      if (currentSession?.user?.email && allowedDomain) {
+        if (!currentSession.user.email.endsWith(`@${allowedDomain}`)) {
+          console.warn(`User email does not match allowed domain: ${allowedDomain}. Signing out.`);
+          await supabase.auth.signOut();
+          setSession(null);
+          setUser(null);
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setIsLoading(false);
+    };
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
+      handleSession(session);
     });
 
     // Listen to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsLoading(false);
+        handleSession(session);
       }
     );
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase.auth, supabase.auth.signOut]);
 
   const signInWithGoogle = async () => {
     try {
