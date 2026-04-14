@@ -9,16 +9,28 @@ const initialState: TopicComposerState = {};
 type TopicComposerProps = {
   courseId: string;
   topicId: string;
+  quotedPost?: {
+    id: string;
+    content: string;
+    authorName: string;
+  };
 };
 
-export default function TopicComposer({ courseId, topicId }: TopicComposerProps) {
+export default function TopicComposer({ courseId, topicId, quotedPost }: TopicComposerProps) {
   const [state, formAction, isPending] = useActionState(createTopicPost, initialState);
 
   return (
     <form action={formAction} className="mb-6 rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-white/5">
       <input type="hidden" name="courseId" value={courseId} />
       <input type="hidden" name="topicId" value={topicId} />
+      <input type="hidden" name="quotedId" value={quotedPost?.id ?? ""} />
       <label className="mb-2 block text-sm font-medium text-foreground">Ask a question</label>
+      {quotedPost ? (
+        <div className="mb-2 rounded-lg border-l-2 border-primary bg-primary/5 px-3 py-2 text-xs">
+          <p className="font-semibold text-gray-700 dark:text-gray-200">{quotedPost.authorName}</p>
+          <p className="text-gray-600 dark:text-gray-300">{quotedPost.content}</p>
+        </div>
+      ) : null}
       <div className="flex gap-2">
         <input
           name="content"

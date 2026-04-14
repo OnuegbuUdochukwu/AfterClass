@@ -7,13 +7,15 @@ import { getAuthenticatedUser, getTopicWithPosts } from "@/app/courses/data";
 
 type ThreadPageProps = {
   params: Promise<{ courseId: string; topicId: string; postId: string }>;
+  searchParams: Promise<{ quote?: string }>;
 };
 
-export default async function ThreadPage({ params }: ThreadPageProps) {
+export default async function ThreadPage({ params, searchParams }: ThreadPageProps) {
   const user = await getAuthenticatedUser();
   if (!user) redirect("/login");
 
   const { courseId, topicId, postId } = await params;
+  const { quote } = await searchParams;
   const supabase = await createClient();
 
   const { data: enrollment } = await supabase
@@ -43,6 +45,7 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
   }
 
   const rootAuthor = authorMap.get(rootPost.user_id);
+  const courseAccent = "#1D9BF0";
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-28 pt-24 sm:px-6">
@@ -71,6 +74,21 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
           courseId={courseId}
           topicId={topicId}
           showThreadLink={false}
+          quoteHref={`/courses/${courseId}/topics/${topicId}/${postId}?quote=${rootPost.id}`}
+          quotedPreview={
+            rootPost.quoted_id
+              ? (() => {
+                  const parent = posts.find((candidate) => candidate.id === rootPost.quoted_id);
+                  if (!parent) return undefined;
+                  const parentAuthor = authorMap.get(parent.user_id);
+                  return {
+                    content: parent.content,
+                    authorName: parentAuthor?.full_name ?? parentAuthor?.email ?? "Student",
+                  };
+                })()
+              : undefined
+          }
+          accentColor={courseAccent}
         />
 
         <section className="space-y-3">
@@ -94,6 +112,21 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
                   courseId={courseId}
                   topicId={topicId}
                   showThreadLink={false}
+                  quoteHref={`/courses/${courseId}/topics/${topicId}/${postId}?quote=${reply.id}`}
+                  quotedPreview={
+                    reply.quoted_id
+                      ? (() => {
+                          const parent = posts.find((candidate) => candidate.id === reply.quoted_id);
+                          if (!parent) return undefined;
+                          const parentAuthor = authorMap.get(parent.user_id);
+                          return {
+                            content: parent.content,
+                            authorName: parentAuthor?.full_name ?? parentAuthor?.email ?? "Student",
+                          };
+                        })()
+                      : undefined
+                  }
+                  accentColor={courseAccent}
                 />
               );
             })
@@ -101,7 +134,7 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
         </section>
       </div>
 
-      <ReplyBox courseId={courseId} topicId={topicId} parentId={postId} />
+      <ReplyBox courseId={courseId} topicId={topicId} parentId={postId} quotedId={quote} />
     </div>
   );
 }

@@ -10,9 +10,10 @@ type ReplyBoxProps = {
   courseId: string;
   topicId: string;
   parentId: string;
+  quotedId?: string;
 };
 
-export default function ReplyBox({ courseId, topicId, parentId }: ReplyBoxProps) {
+export default function ReplyBox({ courseId, topicId, parentId, quotedId }: ReplyBoxProps) {
   const [state, formAction, isPending] = useActionState(createReplyPost, initialState);
 
   return (
@@ -22,6 +23,7 @@ export default function ReplyBox({ courseId, topicId, parentId }: ReplyBoxProps)
           <input type="hidden" name="courseId" value={courseId} />
           <input type="hidden" name="topicId" value={topicId} />
           <input type="hidden" name="parentId" value={parentId} />
+          <input type="hidden" name="quotedId" value={quotedId ?? ""} />
           <input
             type="text"
             name="content"

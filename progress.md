@@ -15,9 +15,9 @@
   - [x] Sub-task 5.2: Content Verification (Gold Check)
 - [x] **Phase 6: Discussion Engine (Twitter Logic)**
   - [x] Sub-task 6.1: The Threaded Feed (Layer 1 & 2)
-- [ ] **Phase 7: Search & Quoting Logic**
-  - [ ] Sub-task 7.1: "Flat-but-Linked" Quoting
-  - [ ] Sub-task 7.2: Ranked Search Implementation
+- [x] **Phase 7: Search & Quoting Logic**
+  - [x] Sub-task 7.1: "Flat-but-Linked" Quoting
+  - [x] Sub-task 7.2: Ranked Search Implementation
 - [ ] **Phase 8: Optimization & Deployment**
   - [ ] Sub-task 8.1: Performance & Polish
   - [ ] Sub-task 8.2: Production Deployment

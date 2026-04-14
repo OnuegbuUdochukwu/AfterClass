@@ -28,6 +28,7 @@ export async function createTopicPost(
   const courseId = String(formData.get("courseId") ?? "");
   const topicId = String(formData.get("topicId") ?? "");
   const content = String(formData.get("content") ?? "").trim();
+  const quotedId = String(formData.get("quotedId") ?? "").trim();
 
   if (!courseId || !topicId || !content) {
     return { error: "Course, topic, and content are required." };
@@ -49,6 +50,7 @@ export async function createTopicPost(
     topic_id: topicId,
     user_id: user.id,
     content,
+    quoted_id: quotedId || null,
   });
 
   if (error) return { error: error.message };
@@ -65,6 +67,7 @@ export async function createReplyPost(
   const topicId = String(formData.get("topicId") ?? "");
   const parentId = String(formData.get("parentId") ?? "");
   const content = String(formData.get("content") ?? "").trim();
+  const quotedId = String(formData.get("quotedId") ?? "").trim();
 
   if (!courseId || !topicId || !parentId || !content) {
     return { error: "Course, topic, parent post, and content are required." };
@@ -87,6 +90,7 @@ export async function createReplyPost(
     user_id: user.id,
     content,
     parent_id: parentId,
+    quoted_id: quotedId || null,
   });
 
   if (error) return { error: error.message };

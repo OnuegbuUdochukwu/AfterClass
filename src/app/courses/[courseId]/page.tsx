@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import WeeklyTimeline from "@/components/WeeklyTimeline";
 import UploadModal from "@/components/UploadModal";
+import CourseSearch from "@/components/CourseSearch";
 import { createClient } from "@/utils/supabase/server";
 import { getAuthenticatedUser, getCourseAndTopics } from "../data";
 
@@ -68,6 +69,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </Link>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{course.code}</h1>
         <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{course.name}</p>
+        <div className="mt-4">
+          <CourseSearch courseId={courseId} />
+        </div>
         {canUpload ? (
           <div className="mt-4">
             <UploadModal courseId={courseId} />

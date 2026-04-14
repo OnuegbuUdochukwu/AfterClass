@@ -7,9 +7,10 @@ import { getAuthenticatedUser, getTopicWithPosts } from "@/app/courses/data";
 
 type TopicPostsPageProps = {
   params: Promise<{ courseId: string; topicId: string }>;
+  searchParams: Promise<{ quote?: string }>;
 };
 
-export default async function TopicPostsPage({ params }: TopicPostsPageProps) {
+export default async function TopicPostsPage({ params, searchParams }: TopicPostsPageProps) {
   const user = await getAuthenticatedUser();
   if (!user) redirect("/login");
 
@@ -25,8 +26,10 @@ export default async function TopicPostsPage({ params }: TopicPostsPageProps) {
   if (!enrollment) notFound();
 
   const { topic, posts, authors } = await getTopicWithPosts(courseId, topicId);
+  const { quote } = await searchParams;
   const authorMap = new Map(authors.map((author) => [author.id, author]));
   const topLevelPosts = posts.filter((post) => post.parent_id === null);
+  const courseAccent = "#1D9BF0";
 
   const repliesCountMap = new Map<string, number>();
   const quotesCountMap = new Map<string, number>();
@@ -38,6 +41,9 @@ export default async function TopicPostsPage({ params }: TopicPostsPageProps) {
       quotesCountMap.set(post.quoted_id, (quotesCountMap.get(post.quoted_id) ?? 0) + 1);
     }
   }
+
+  const quotedPost = quote ? posts.find((post) => post.id === quote) : undefined;
+  const quotedAuthor = quotedPost ? authorMap.get(quotedPost.user_id) : undefined;
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-24 sm:px-6">
@@ -54,7 +60,19 @@ export default async function TopicPostsPage({ params }: TopicPostsPageProps) {
         </p>
       </div>
 
-      <TopicComposer courseId={courseId} topicId={topicId} />
+      <TopicComposer
+        courseId={courseId}
+        topicId={topicId}
+        quotedPost={
+          quotedPost
+            ? {
+                id: quotedPost.id,
+                content: quotedPost.content,
+                authorName: quotedAuthor?.full_name ?? quotedAuthor?.email ?? "Student",
+              }
+            : undefined
+        }
+      />
 
       <div className="space-y-3">
         {topLevelPosts.length === 0 ? (
@@ -76,6 +94,21 @@ export default async function TopicPostsPage({ params }: TopicPostsPageProps) {
                 upvoteCount={post.upvote_count ?? 0}
                 courseId={courseId}
                 topicId={topicId}
+                quoteHref={`/courses/${courseId}/topics/${topicId}?quote=${post.id}`}
+                quotedPreview={
+                  post.quoted_id
+                    ? (() => {
+                        const parent = posts.find((candidate) => candidate.id === post.quoted_id);
+                        if (!parent) return undefined;
+                        const parentAuthor = authorMap.get(parent.user_id);
+                        return {
+                          content: parent.content,
+                          authorName: parentAuthor?.full_name ?? parentAuthor?.email ?? "Student",
+                        };
+                      })()
+                    : undefined
+                }
+                accentColor={courseAccent}
               />
             );
           })

@@ -17,6 +17,12 @@ type PostCardProps = {
   courseId: string;
   topicId: string;
   showThreadLink?: boolean;
+  quoteHref?: string;
+  quotedPreview?: {
+    content: string;
+    authorName: string;
+  };
+  accentColor?: string;
 };
 
 function getRelativeTime(dateString: string | null) {
@@ -42,6 +48,9 @@ export default function PostCard({
   courseId,
   topicId,
   showThreadLink = true,
+  quoteHref,
+  quotedPreview,
+  accentColor = "#1D9BF0",
 }: PostCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -62,6 +71,16 @@ export default function PostCard({
       </div>
 
       <p className="mb-4 text-sm leading-6 text-foreground">{content}</p>
+
+      {quotedPreview ? (
+        <div
+          className="mb-4 rounded-lg border-l-2 bg-gray-100/70 px-3 py-2 text-xs dark:bg-black/20"
+          style={{ borderColor: accentColor }}
+        >
+          <p className="mb-1 font-semibold text-gray-700 dark:text-gray-300">{quotedPreview.authorName}</p>
+          <p className="text-gray-600 dark:text-gray-400">{quotedPreview.content}</p>
+        </div>
+      ) : null}
 
       <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-300">
         <span className="inline-flex items-center gap-1">
@@ -97,6 +116,11 @@ export default function PostCard({
             className="ml-auto text-xs font-semibold text-primary hover:underline"
           >
             View thread
+          </Link>
+        ) : null}
+        {quoteHref ? (
+          <Link href={quoteHref} className="text-xs font-semibold text-primary hover:underline">
+            Quote
           </Link>
         ) : null}
       </div>
