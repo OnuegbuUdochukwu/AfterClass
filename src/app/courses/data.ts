@@ -27,6 +27,17 @@ export type TopicAuthor = {
   email: string | null;
 };
 
+export type PostItem = {
+  id: string;
+  topic_id: string;
+  user_id: string;
+  content: string;
+  parent_id: string | null;
+  quoted_id: string | null;
+  upvote_count: number | null;
+  created_at: string | null;
+};
+
 type CourseRecord = {
   id: string;
   code: string;
@@ -141,6 +152,49 @@ export async function getCourseAndTopics(courseId: string) {
   return {
     course,
     topics: (topics ?? []) as TopicItem[],
+    authors,
+  };
+}
+
+export async function getTopicWithPosts(courseId: string, topicId: string) {
+  const supabase = await createClient();
+
+  const [{ data: topic, error: topicError }, { data: posts, error: postsError }] =
+    await Promise.all([
+      supabase
+        .from("topics")
+        .select("id, course_id, week_number, title, note_url, file_size, is_verified, created_by, created_at")
+        .eq("course_id", courseId)
+        .eq("id", topicId)
+        .single(),
+      supabase
+        .from("posts")
+        .select("id, topic_id, user_id, content, parent_id, quoted_id, upvote_count, created_at")
+        .eq("topic_id", topicId)
+        .order("created_at", { ascending: true }),
+    ]);
+
+  if (topicError) throw new Error(topicError.message);
+  if (postsError) throw new Error(postsError.message);
+
+  const authorIds = Array.from(
+    new Set((posts ?? []).map((post) => post.user_id).filter(Boolean) as string[])
+  );
+
+  let authors: TopicAuthor[] = [];
+  if (authorIds.length > 0) {
+    const { data: users, error: usersError } = await supabase
+      .from("users")
+      .select("id, full_name, avatar_url, email")
+      .in("id", authorIds);
+
+    if (usersError) throw new Error(usersError.message);
+    authors = users ?? [];
+  }
+
+  return {
+    topic: topic as TopicItem,
+    posts: (posts ?? []) as PostItem[],
     authors,
   };
 }

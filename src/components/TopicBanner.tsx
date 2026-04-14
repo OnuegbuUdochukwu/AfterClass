@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { CheckCircle2, Download, FileText } from "lucide-react";
 import { updateTopicVerification } from "@/app/courses/[courseId]/actions";
 
@@ -98,6 +99,15 @@ export default function TopicBanner({
         ) : (
           <span className="text-xs text-gray-500 dark:text-gray-400">No note uploaded</span>
         )}
+      </div>
+
+      <div className="mt-3">
+        <Link
+          href={`/courses/${courseId}/topics/${topicId}`}
+          className="text-xs font-semibold text-primary hover:underline"
+        >
+          Open discussion
+        </Link>
       </div>
 
       {canVerify && !isVerified ? (

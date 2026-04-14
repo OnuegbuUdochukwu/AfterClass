@@ -13,8 +13,8 @@
 - [x] **Phase 5: Content Management (Facilitator Tools)**
   - [x] Sub-task 5.1: "One-Minute" Topic Creation & Upload Workflow
   - [x] Sub-task 5.2: Content Verification (Gold Check)
-- [ ] **Phase 6: Discussion Engine (Twitter Logic)**
-  - [ ] Sub-task 6.1: The Threaded Feed (Layer 1 & 2)
+- [x] **Phase 6: Discussion Engine (Twitter Logic)**
+  - [x] Sub-task 6.1: The Threaded Feed (Layer 1 & 2)
 - [ ] **Phase 7: Search & Quoting Logic**
   - [ ] Sub-task 7.1: "Flat-but-Linked" Quoting
   - [ ] Sub-task 7.2: Ranked Search Implementation
