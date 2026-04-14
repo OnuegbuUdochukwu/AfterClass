@@ -11,16 +11,24 @@ type WeeklyTopic = {
   title: string;
   noteUrl: string | null;
   fileSize: string | null;
+  isVerified: boolean;
   facilitatorName: string;
   facilitatorAvatar: string | null;
 };
 
 type WeeklyTimelineProps = {
+  courseId: string;
   topics: WeeklyTopic[];
   accentColor: string;
+  canVerify: boolean;
 };
 
-export default function WeeklyTimeline({ topics, accentColor }: WeeklyTimelineProps) {
+export default function WeeklyTimeline({
+  courseId,
+  topics,
+  accentColor,
+  canVerify,
+}: WeeklyTimelineProps) {
   const grouped = useMemo(() => {
     const map = new Map<number, WeeklyTopic[]>();
     for (const topic of topics) {
@@ -110,12 +118,16 @@ export default function WeeklyTimeline({ topics, accentColor }: WeeklyTimelinePr
                       {week.topics.map((topic) => (
                         <TopicBanner
                           key={topic.id}
+                          topicId={topic.id}
+                          courseId={courseId}
                           title={topic.title}
                           noteUrl={topic.noteUrl}
                           fileSize={topic.fileSize}
                           facilitatorName={topic.facilitatorName}
                           facilitatorAvatar={topic.facilitatorAvatar}
                           accentColor={accentColor}
+                          isVerified={topic.isVerified}
+                          canVerify={canVerify}
                         />
                       ))}
                     </div>

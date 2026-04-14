@@ -10,9 +10,9 @@
 - [x] **Phase 4: Course Lobby & Weekly Timeline**
   - [x] Sub-task 4.1: Course Lobby & Navigation
   - [x] Sub-task 4.2: Weekly Accordion & Topic Banners
-- [ ] **Phase 5: Content Management (Facilitator Tools)**
-  - [ ] Sub-task 5.1: "One-Minute" Topic Creation & Upload Workflow
-  - [ ] Sub-task 5.2: Content Verification (Gold Check)
+- [x] **Phase 5: Content Management (Facilitator Tools)**
+  - [x] Sub-task 5.1: "One-Minute" Topic Creation & Upload Workflow
+  - [x] Sub-task 5.2: Content Verification (Gold Check)
 - [ ] **Phase 6: Discussion Engine (Twitter Logic)**
   - [ ] Sub-task 6.1: The Threaded Feed (Layer 1 & 2)
 - [ ] **Phase 7: Search & Quoting Logic**

@@ -15,6 +15,7 @@ export type TopicItem = {
   title: string;
   note_url: string | null;
   file_size: string | null;
+  is_verified: boolean | null;
   created_by: string | null;
   created_at: string | null;
 };
@@ -113,7 +114,7 @@ export async function getCourseAndTopics(courseId: string) {
         .single(),
       supabase
         .from("topics")
-        .select("id, course_id, week_number, title, note_url, file_size, created_by, created_at")
+        .select("id, course_id, week_number, title, note_url, file_size, is_verified, created_by, created_at")
         .eq("course_id", courseId)
         .order("week_number", { ascending: true })
         .order("created_at", { ascending: true }),

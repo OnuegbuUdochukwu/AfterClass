@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import WeeklyTimeline from "@/components/WeeklyTimeline";
+import UploadModal from "@/components/UploadModal";
 import { createClient } from "@/utils/supabase/server";
 import { getAuthenticatedUser, getCourseAndTopics } from "../data";
 
@@ -17,7 +18,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   const { data: enrollment } = await supabase
     .from("enrollments")
-    .select("id")
+    .select("id, role")
     .eq("user_id", user.id)
     .eq("course_id", courseId)
     .maybeSingle();
@@ -28,6 +29,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
   if (!course) notFound();
 
   const accentColor = course.accent_color ?? "#1D9BF0";
+  const canUpload =
+    enrollment.role === "rep" || enrollment.role === "lecturer" || user.email === process.env.ADMIN_EMAIL;
+  const canVerify = enrollment.role === "lecturer" || user.email === process.env.ADMIN_EMAIL;
   const authorMap = new Map(authors.map((author) => [author.id, author]));
 
   const topicItems = await Promise.all(
@@ -46,6 +50,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         title: topic.title,
         noteUrl,
         fileSize: topic.file_size,
+        isVerified: Boolean(topic.is_verified),
         facilitatorName: author?.full_name ?? author?.email ?? "Course Facilitator",
         facilitatorAvatar: author?.avatar_url ?? null,
       };
@@ -63,9 +68,19 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </Link>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{course.code}</h1>
         <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{course.name}</p>
+        {canUpload ? (
+          <div className="mt-4">
+            <UploadModal courseId={courseId} />
+          </div>
+        ) : null}
       </div>
 
-      <WeeklyTimeline topics={topicItems} accentColor={accentColor} />
+      <WeeklyTimeline
+        courseId={courseId}
+        topics={topicItems}
+        accentColor={accentColor}
+        canVerify={canVerify}
+      />
     </div>
   );
 }
