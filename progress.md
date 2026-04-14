@@ -7,9 +7,9 @@
 - [x] **Phase 3: Database Architecture & Admin Tools**
   - [x] Sub-task 3.1: Schema Implementation & RLS Policies
   - [x] Sub-task 3.2: Developer "God View" Admin Panel
-- [ ] **Phase 4: Course Lobby & Weekly Timeline**
-  - [ ] Sub-task 4.1: Course Lobby & Navigation
-  - [ ] Sub-task 4.2: Weekly Accordion & Topic Banners
+- [x] **Phase 4: Course Lobby & Weekly Timeline**
+  - [x] Sub-task 4.1: Course Lobby & Navigation
+  - [x] Sub-task 4.2: Weekly Accordion & Topic Banners
 - [ ] **Phase 5: Content Management (Facilitator Tools)**
   - [ ] Sub-task 5.1: "One-Minute" Topic Creation & Upload Workflow
   - [ ] Sub-task 5.2: Content Verification (Gold Check)

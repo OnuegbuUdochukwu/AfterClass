@@ -4,10 +4,21 @@ import { useState, useEffect } from "react";
 import { searchUsers, getCourses, promoteUserRole } from "./actions";
 import { Search, ShieldAlert, UserCheck } from "lucide-react";
 
+type AdminUser = {
+  id: string;
+  email: string;
+};
+
+type AdminCourse = {
+  id: string;
+  code: string;
+  name: string;
+};
+
 export default function AdminPage() {
   const [query, setQuery] = useState("");
-  const [users, setUsers] = useState<any[]>([]);
-  const [courses, setCourses] = useState<any[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [courses, setCourses] = useState<AdminCourse[]>([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
 
