@@ -1,12 +1,41 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #FFFFFF;
-  --color-foreground: #101828;
+  /* Colors */
   --color-primary: #7F56D9;
   --color-primary-hover: #6941C6;
-  --radius-container: 8px;
-  --radius-pill: 9999px;
+  --color-primary-ghost: rgba(127, 86, 217, 0.1);
+  --color-primary-ghost-hover: rgba(127, 86, 217, 0.15);
+  
+  --color-border-light: #EAECF0;
+  --color-border-dark: #344054;
+
+  --color-surface-light: #FFFFFF;
+  --color-surface-dark: #1D2939;
+
+  --color-nav-bg-dark: rgba(16, 24, 40, 0.8);
+  --color-nav-bg-light: rgba(255, 255, 255, 0.8);
+  
+  /* Radii */
+  --radius-base: 8px;
+  --radius-container: 12px;
+  --radius-pill: 100px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Typography extensions */
+  --tracking-heading: -0.02em;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -15,14 +44,24 @@
   :root {
     --background: #FFFFFF;
     --foreground: #101828;
+    --surface: var(--color-surface-light);
+    --border: var(--color-border-light);
   }
+  
   .dark {
     --background: #101828;
-    --foreground: #FFFFFF;
+    --foreground: #F9FAFB;
+    --surface: var(--color-surface-dark);
+    --border: var(--color-border-dark);
   }
+  
   body {
     background-color: var(--background);
     color: var(--foreground);
     @apply antialiased font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-[--tracking-heading];
   }
 }
