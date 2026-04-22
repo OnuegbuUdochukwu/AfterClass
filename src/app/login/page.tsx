@@ -3,6 +3,8 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 
 export default function LoginPage() {
   const { user, signInWithGoogle, isLoading } = useAuth();
@@ -16,37 +18,38 @@ export default function LoginPage() {
   }, [user, isLoading, router]);
 
   return (
-    <div className="min-h-screen bg-[#15202B] flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center py-16 px-4 min-h-[70vh]">
       {/* Visual Identity Logo/Brand */}
       <div className="mb-10 text-center">
-        <h1 className="text-5xl font-bold text-[#F7F9F9] tracking-tight mb-2">
-          After<span className="text-[#1D9BF0]">Class</span>
+        <h1 className="text-5xl font-bold tracking-tight mb-2">
+          After<span className="text-primary">Class.</span>
         </h1>
-        <p className="text-[#8B98A5] text-lg max-w-sm mx-auto">
+        <p className="text-gray-500 dark:text-gray-400 text-lg max-w-sm mx-auto mt-4">
           The definitive third space for university learning.
         </p>
       </div>
 
       {/* Login Card */}
-      <div className="bg-[#1E2732] border border-gray-800 rounded-2xl p-8 w-full max-w-md shadow-2xl">
-        <h2 className="text-2xl font-bold text-[#F7F9F9] mb-6 text-center">
+      <Card className="p-8 w-full max-w-md shadow-2xl transition-all">
+        <h2 className="text-2xl font-bold text-center mb-4">
           Sign In
         </h2>
         
-        <p className="text-[#8B98A5] text-center mb-8 text-sm">
+        <p className="text-gray-500 dark:text-gray-400 text-center mb-8 text-sm">
           Join your course community. Ask questions, get verified answers, and find course materials.
         </p>
 
-        <button
+        <Button
           onClick={signInWithGoogle}
           disabled={isLoading}
-          className="w-full bg-[#F7F9F9] hover:bg-gray-200 text-[#15202B] font-semibold py-4 px-6 rounded-full flex items-center justify-center transition-all duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+          variant="secondary"
+          className="w-full flex items-center justify-center rounded-[var(--radius-pill)] h-12"
         >
           {isLoading ? (
-             <div className="w-5 h-5 border-2 border-[#15202B] border-t-transparent rounded-full animate-spin"></div>
+             <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
           ) : (
             <>
-              {/* Google icon simple SVG for better aesthetics than Lucide's general LogIn if desired, but we can stick to Lucide or simple SVG */}
+              {/* Google icon simple SVG */}
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
@@ -69,11 +72,11 @@ export default function LoginPage() {
               Continue with Google
             </>
           )}
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {/* Footer link */}
-      <p className="mt-8 text-[#8B98A5] text-sm text-center">
+      <p className="mt-8 text-gray-500 dark:text-gray-400 text-sm text-center">
         By signing in, you agree to our Terms of Service and Privacy Policy.
       </p>
     </div>
