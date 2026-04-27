@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { MessageSquare } from 'lucide-react';
-import Link from 'next/link';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { GlassNav } from '@/components/GlassNav';
+import BottomNav from '@/components/BottomNav';
+import Footer from '@/components/Footer';
 
 const inter = Inter({
   variable: '--font-sans',
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -26,20 +27,28 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} h-full antialiased dark`}
     >
+      <head>
+        {/* Material Symbols Outlined */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-screen bg-background text-foreground flex flex-col font-sans">
         <AuthProvider>
           {/* Global Navigation Bar */}
           <GlassNav />
 
           {/* Main Content Area */}
-          <main className="flex-1 pt-16 relative w-full max-w-[1280px] mx-auto">
+          <main className="flex-1 pt-16 relative w-full">
             {children}
           </main>
 
-          {/* Support Widget (FAB) */}
-          <button className="fixed bottom-6 right-6 p-4 bg-primary text-white rounded-full shadow-lg hover:bg-primary-hover hover:-translate-y-1 transition-all z-50">
-            <MessageSquare size={24} />
-          </button>
+          {/* Footer */}
+          <Footer />
+
+          {/* Mobile Bottom Navigation */}
+          <BottomNav />
         </AuthProvider>
       </body>
     </html>
